@@ -53,7 +53,6 @@ const userSchema = new Schema({
     },
     otpTime: {
         type: Number,
-        required: [true, 'Otp time is required !']
     }
 }, {
     versionKey: false,

@@ -13,9 +13,10 @@ const last_name = Joi.string().trim().required().messages({
 });
 
 const phone = Joi.string().trim().pattern(/^\+9989[012345789][0-9]{7}$/).required().messages({
-    "string.base": "Phone must be a string",
-    "string.empty": "Phone cannot be empty",
-    "string.pattern.base": "Phone number is invalid", "any. required": "Phone number is required"
+  "string.base": "Phone must be a string",
+  "string.empty": "Phone cannot be empty",
+  "string.pattern.base": "Phone number is invalid",
+  "any.required": "Phone number is required"
 });
 
 const email = Joi.string().trim().email().required().messages({
@@ -51,3 +52,25 @@ export const userSchema = Joi.object({
     role,
     isVerified
 })
+
+
+export const changePasswordSchema = Joi.object({ 
+    email,
+    new_password: password
+})
+
+export const loginSchema = Joi.object({
+    email, password
+})
+
+export const createUserSchema = (data) => {
+    const schemaFields = {};
+    if ("first_name" in data) schemaFields.first_name = first_name; 
+    if ("last_name" in data) schemaFields.last_name = last_name;
+    if ("phone" in data) schemaFields.phone = phone;
+    if ("email" in data) schemaFields.email = email;
+    if ("password" in data) schemaFields.password = password;
+    if ("role" in data) schemaFields. role = role;
+    if ("isVerified" in data) schemaFields.isVerified = isVerified;
+    return Joi.object(schemaFields);
+};
