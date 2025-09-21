@@ -44,11 +44,18 @@ const description = Joi.string().trim().min(20).required().messages({
   "any.required": "Book description is required"
 });
 
-const cover_image = Joi.string().uri().required().messages({
+const cover_image = Joi.string().uri().messages({
   "string.base": "Book cover image must be a string",
   "string.empty": "Book cover image cannot be empty",
   "string.uri": "Book cover image must be a valid URL",
   "any.required": "Book cover image is required"
+});
+
+const public_id = Joi.string().uri().messages({
+  "string.base": "public_id image must be a string",
+  "string.empty": "public_id image cannot be empty",
+  "string.uri": "public_id image must be a valid URL",
+  "any.required": "public_id image is required"
 });
 
 const period = Joi.string().hex().length(24).required().messages({
@@ -68,7 +75,8 @@ let bookSchema = Joi.object({
   author,
   description,
   cover_image,
-  period
+  period,
+  public_id
 });
 
 const createBookSchema = (data) => {
@@ -83,6 +91,7 @@ const createBookSchema = (data) => {
   if ("description" in data) schemaFields.description = description;
   if ("cover_image" in data) schemaFields.cover_image = cover_image;
   if ("period" in data) schemaFields.period = period;
+  if ("public_id" in data) schemaFields.public_id = public_id;
 
   return Joi.object(schemaFields);
 };

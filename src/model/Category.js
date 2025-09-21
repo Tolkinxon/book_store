@@ -18,4 +18,12 @@ const categorySchema = new Schema({
     timestamps: true
 });
 
+categorySchema.statics.findByName = function(val){
+    return this.find({name: new RegExp(val, 'gi')});
+};
+
+categorySchema.query.searchName = function(val){
+    return this.where({name: new RegExp(val, 'gi')});
+};
+
 export default model("category", categorySchema);

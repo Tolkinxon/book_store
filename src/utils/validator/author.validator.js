@@ -34,6 +34,12 @@ const photo = Joi.string().uri().messages({
   "string.uri": "Photo must be a valid URL",
 });
 
+const public_id = Joi.string().uri().messages({
+  "string.base": "public_id must be a string",
+  "string.empty": "public_id URL cannot be empty",
+  "string.uri": "public_id must be a valid URL",
+});
+
 const period = Joi.string().hex().length(24).required().messages({
   "string.base": "Period must be a string",
   "string.empty": "Period cannot be empty",
@@ -42,7 +48,7 @@ const period = Joi.string().hex().length(24).required().messages({
   "any.required": "Period is required"
 });
 
-let authorSchema = Joi.object({full_name, date_of_birth, date_of_death, bio, years_active, photo, period });
+let authorSchema = Joi.object({full_name, date_of_birth, date_of_death, bio, years_active, photo, period, public_id });
 
 const createAuthorSchema = (data) => {
   const schemaFields = {};
@@ -54,6 +60,7 @@ const createAuthorSchema = (data) => {
   if ("years_active" in data) schemaFields.years_active = years_active;
   if ("photo" in data) schemaFields.photo = photo;
   if ("period" in data) schemaFields.period = period;
+  if ("public_id" in data) schemaFields.public_id = public_id;
 
   return Joi.object(schemaFields);
 };

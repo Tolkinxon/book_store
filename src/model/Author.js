@@ -43,6 +43,10 @@ const authorSchema = new Schema({
         type: String,
         trim: true,
     },
+    public_id: {
+        type: String,
+        trim: true,
+    },
     period: {
         type: Schema.Types.ObjectId,
         ref: "category",

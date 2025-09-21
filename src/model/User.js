@@ -1,48 +1,59 @@
 import { Schema, model } from 'mongoose';
+const phoneNumberRegex = /^\+9989[012345789][0-9]{7}$/;
+const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
 
 const userSchema = new Schema({
-    username: {
+    first_name: {
         type: String,
-        required: true,
-        toUpperCase: true,
-        trim: true
+        trim: true,
+        required: [true, "First name is required !"],
+    },
+    last_name: {
+        type: String,
+        trim: true,
+        required: [true, "Last name is required !"], 
+    },
+    phone: {
+        type: String,
+        trim: true,
+        unique: [true, "Phone number already exists"],
+        match: [phoneNumberRegex, "Phone number is invalid !"],
+        required: [true, "Phone number is required !"]
     },
     email: {
         type: String,
-        required: [true, "Email is required"],
-        toLowerCase: true,
-        unique: [true, "Email already exists"], 
         trim: true,
-        match: [
-            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-            "Value is not email"
-        ]
+        unique: [true, "Email already exists"],
+        match: [emailRegex, "Email is invalid !"],
+        required: [true, "Email is required !"]
     },
     password: {
         type: String,
-        required: true,
-        minLength: [3, "Minimal insertion simbols only 3 symbol"],
-        maxLength: [8, "Maxsimal insertion symbols only 8 symbol"]
+        trim: true,
+        minlength: [5, "Password must be at least 5 characters long"],
+        required: [true, "Password is required !"]
     },
-    age: {
-        type: Number,
-        required: true,
-        min: [18, "Minimal age is 18"],
-        max: [50, "Maximal age is 50"],
-    },
-    gender: {
+    role: {
         type: String,
-        required: true,
-        // enum: ['male', 'female'],
+        trim: true,
+        default: 'user',
         enum: {
-            values: ['male', 'female'],
-            message: 'Bunday jins mavjud emas'
-        },
-        defaul: 'male'
+            values: ['user', 'admin'],
+            message: '{VALUE} is invalid !'
+        }
     },
-    role_id: {
+    otp: {
+        type: String,
+        maxLength:  [6, 'Max number length is 6']
+    },
+    isVerified:{
+        type: Boolean,
+        default: false,
+    },
+    otpTime: {
         type: Number,
-        enum: [1, 2]
+        required: [true, 'Otp time is required !']
     }
 }, {
     versionKey: false,

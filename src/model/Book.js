@@ -41,7 +41,10 @@ const bookSchema = new Schema(
     cover_image: {      
         type: String,
         trim: true,
-        required: [true, 'Book cover image is required !']
+    },
+    public_id: {
+        type: String,
+        trim: true,
     },
     period: {
         type: Schema.Types.ObjectId,
