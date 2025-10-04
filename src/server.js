@@ -20,4 +20,4 @@ async function bootstrap() {
         console.log('MongoDB connection error', error);
     }
 }
-bootstrap();
+bootstrap()
